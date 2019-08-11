@@ -89,6 +89,25 @@ function checkStudentType(id) {
       });
    })
 };
+
+function GetMileStonesandPAssedDate(MData) {
+   return new Promise((resolve, reject) => {
+      const mileData = {
+         "CE": "Comprehensive Exam",
+         "CM": "Committee Formed",
+         "DE": "Diagnostics Evaluation",
+         "DF": "Defense",
+         "PR": "Proposal"
+      };
+      Milestones = "";
+      MDate = "";
+      MData.forEach(data => {
+         Milestones += `${mileData[data.MId]},`;
+         MDate += `${data.PassDate},`;
+      });
+      resolve({ "Milestones": Milestones, "MDate": MDate });
+   });
+};
 //-----------------------------------------------login page call------------------------------------------------------
 exports.login = function (req, res) {
    var message = [];
@@ -116,15 +135,13 @@ exports.login = function (req, res) {
                      MilestonesPassedQuery = `SELECT * FROM doctoraldb.milestonespassed where StudentId = "${response.id}";`;
                      db.query(MilestonesPassedQuery, function (err, MilestonePssd) {
                         if (MilestonePssd.length > 0) {
-                           response['PassDate'] = MilestonePssd[0].PassDate;
-                           Milestones = `SELECT * FROM doctoraldb.milestone where MId = "${MilestonePssd[0].MId}";`;
-                           db.query(Milestones, function (err, MIdRes) {
-                              if (MIdRes.length > 0) {
-                                 response['MName'] = MIdRes[0].MName;
-                                 console.log(response);
-                                 res.render('index.ejs', { message: [response] });
-                              }
-                           });
+
+                           GetMileStonesandPAssedDate(MilestonePssd).then((resnse) => {
+                              response['MName'] = resnse.Milestones;
+                              response['PassDate'] = resnse.MDate;
+                              console.log(response);
+                              res.render('index.ejs', { message: [response] });
+                           })
                         }
                      });
                   });
