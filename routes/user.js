@@ -4,13 +4,15 @@ exports.signup = function (req, res) {
    message = '';
    if (req.method == "POST") {
       var post = req.body;
-      var name = post.user_name;
-      var pass = post.password;
-      var fname = post.first_name;
-      var lname = post.last_name;
-      var mob = post.mob_no;
+      var first_name = post.first_name;
+      var last_name = post.last_name;
+      var student_id = post.student_id;
+      var st_sem = post.st_sem;
+      var st_year = post.st_year;
+      var support_type = post.support_type;
+      var supervisor = post.supervisor;
 
-      var sql = "INSERT INTO `users`(`first_name`,`last_name`,`mob_no`,`user_name`, `password`) VALUES ('" + fname + "','" + lname + "','" + mob + "','" + name + "','" + pass + "')";
+      var sql = `INSERT INTO doctoraldb.phdstudent(StudentId,FName,LName,StSem, StYear, Supervisor) VALUES ('${student_id}','${first_name}', '${last_name}', '${st_sem}', ${parseInt(st_year)}, '${supervisor}');`;
 
       var query = db.query(sql, function (err, result) {
 
