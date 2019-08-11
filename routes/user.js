@@ -29,11 +29,11 @@ exports.signup = function (req, res) {
       else if ((gra_pay && funding)) {
          console.log("GRA");
          support_type = "GRA"
-         support_insertion_query = `INSERT INTO doctoraldb.gra(StudentId,Type,Source) VALUES ("${student_id}","${sc_type}", ${sc_source});`;
+         support_insertion_query = `INSERT INTO doctoraldb.gra(StudentId,Funding,MonthlyPay) VALUES ("${student_id}","${funding}", ${parseInt(gra_pay)});`;
       } else if ((sc_source || sc_type)) {
          console.log("Scholarship");
          support_type = "Scholarship";
-         support_insertion_query = `INSERT INTO doctoraldb.gra(StudentId,Funding,MonthlyPay) VALUES ("${student_id}","${funding}", ${parseInt(gra_pay)});`;
+         support_insertion_query = `INSERT INTO doctoraldb.gra(StudentId,Type,Source) VALUES ("${student_id}","${sc_type}", ${sc_source});`;
       } else {
          support_type = "Self Support";
          support_insertion_query = `INSERT INTO doctoraldb.selfsupport(StudentId) VALUES ("${student_id}");`;
