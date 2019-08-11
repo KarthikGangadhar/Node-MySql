@@ -1,0 +1,59 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sample Site</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"/>
+   
+</head>
+<body id="clrblk">
+        <div class="container">   
+                    <div style="padding-top:30px" class="panel-body" >
+                        <form id="" class="form-horizontal" role="form" method="post" action="/login">                                   
+
+                        <div class="row">
+                        <div class="form-group col-xs-5">
+                            <label for="firstname" class="sr-only"></label>
+                            <input id="" type="text" class="form-control" name="FName" value="" placeholder="FName">
+                        </div>
+            
+                        <div class="form-group col-xs-5">
+                            <label for="lastname" class="sr-only"></label>
+                            <input id="login-password" type="password" class="form-control" name="LName" placeholder="LName">
+                        </div>
+
+                        <div class="form-group col-xs-2">
+                            <button id="btn-login" type="submit" class="btn btn-success">Submit  </button>
+                        </div>
+                        <div>
+                        </form>    
+                    </div>                    
+                    <div style="padding-top:30px" class="panel-body">
+                        <% if (message instanceof Array && message.length > 0) { %>
+                                                                          
+                            <h2>Result</h2>
+                            <table class="table">
+                                <thead>
+                                    <th>Sup FName</th>
+                                    <th>Sup LName</th>
+                                    <th>StType</th>
+                                    <th>MName</th>
+                                    <th>PassDate</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                            <% message.forEach((obj) => { %>
+                          <tr>
+                            <td><%= obj.IFname  %> </td>
+                            <td><%= obj.ILname  %></td>
+                            <td><%= obj.Type  %></td>
+                            <td><%= obj.MName  %></td>
+                            <td><%= obj.PassDate  %></td>
+                          </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+                        <% } %>
+                    </div>
+        </div>
+</body>
+</html>
