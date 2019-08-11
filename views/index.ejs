@@ -14,7 +14,7 @@
         <div style="padding-top:30px" class="panel-body">
             <form id="" class="form-horizontal" role="form" method="post" action="/signup"
                 onSubmit="return checkblank(this);">
-                <% if (message.length > 0) { %>
+                <% if (!(message instanceof Array)) { %>
                 <div class="alert alert-success col-sm-12"><%= message %></div>
                 <% } %>
                 <div id="signupalert" style="display:none" class="alert alert-danger">
@@ -47,21 +47,54 @@
                     </div>
                 </div>
                 <div class="form-group">
-                        <label for="st_year" class="col-md-2 ">StYear</label>
-                        <div class="col-md-10">
-                            <input type="text" class="form-control" name="st_year" placeholder="2019">
-                        </div>
+                    <label for="st_year" class="col-md-2 ">StYear</label>
+                    <div class="col-md-10">
+                        <input type="text" class="form-control" name="st_year" placeholder="2019">
                     </div>
+                </div>
                 <div class="form-group">
                     <label for="supervisor" class="col-md-2 ">Supervisor</label>
                     <div class="col-md-10">
                         <input type="text" class="form-control" name="supervisor" placeholder="Supervisor ID">
                     </div>
                 </div>
+
+                <div style="text-align: center;margin-bottom: 20px;margin-top: 20px;">
+                    <h4> Support Type </h4>
+                </div>
+
                 <div class="form-group">
-                    <label for="support_type" class="col-md-2 ">Support Type</label>
-                    <div class="col-md-10">
-                        <input type="text" class="form-control" name="support_type" placeholder="Scholarship">
+                    <div class="row">
+                        <label for="support_type" class="col-md-2 " style="margin-left: 15px;">GRA</label>
+                        <div class="col-md-4" style="margin-left: 12px;">
+                            <input type="text" class="form-control" name="funding" placeholder="Funding">
+                        </div>
+                        <div class="col-md-4" style="margin-left: 12px;">
+                            <input type="text" class="form-control" name="gra_pay" placeholder="MonthlyPay">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <label for="support_type" class="col-md-2 " style="margin-left: 15px;">GTA</label>
+                        <div class="col-md-4" style="margin-left: 12px;">
+                            <input type="text" class="form-control" name="section_id" placeholder="SectionId">
+                        </div>
+                        <div class="col-md-4" style="margin-left: 12px;">
+                            <input type="text" class="form-control" name="gta_Pay" placeholder="MonthlyPay">
+                        </div>
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <label for="support_type" class="col-md-2 " style="margin-left: 15px;">Scholarship</label>
+                        <div class="col-md-4" style="margin-left: 12px;">
+                            <input type="text" class="form-control" name="sc_type" placeholder="Type">
+                        </div>
+                        <div class="col-md-4" style="margin-left: 12px;">
+                            <input type="text" class="form-control" name="sc_sourse" placeholder="Source">
+                        </div>
                     </div>
                 </div>
 

@@ -9,16 +9,54 @@ exports.signup = function (req, res) {
       var student_id = post.student_id;
       var st_sem = post.st_sem;
       var st_year = post.st_year;
-      var support_type = post.support_type;
+      var support_type = "";
       var supervisor = post.supervisor;
+      var gta_pay = post.gta_Pay;
+      var gra_pay = post.gra_pay;
+      var funding = post.funding;
+      var sc_source = post.sc_sourse;
+      var sc_type = post.sc_type;
+      var section_id = post.section_id;
+      var support_insertion_query = "";
 
-      var sql = `INSERT INTO doctoraldb.phdstudent(StudentId,FName,LName,StSem, StYear, Supervisor) VALUES ('${student_id}','${first_name}', '${last_name}', '${st_sem}', ${parseInt(st_year)}, '${supervisor}');`;
+      if ((gta_pay || section_id) && (gra_pay || funding) && (sc_source || sc_type)) {
+         support_type = "";
+      } else if ((gta_pay && section_id)) {
+         console.log("GTA");
+         support_type = "GTA";
+         support_insertion_query = `INSERT INTO doctoraldb.gta(StudentId,SectionID,MonthlyPay) VALUES ("${student_id}","${section_id}", ${parseInt(gta_pay)});`;
+      }
+      else if ((gra_pay && funding)) {
+         console.log("GRA");
+         support_type = "GRA"
+         support_insertion_query = `INSERT INTO doctoraldb.gra(StudentId,Type,Source) VALUES ("${student_id}","${sc_type}", ${sc_source});`;
+      } else if ((sc_source || sc_type)) {
+         console.log("Scholarship");
+         support_type = "Scholarship";
+         support_insertion_query = `INSERT INTO doctoraldb.gra(StudentId,Funding,MonthlyPay) VALUES ("${student_id}","${funding}", ${parseInt(gra_pay)});`;
+      } else {
+         support_type = "Self Support";
+         support_insertion_query = `INSERT INTO doctoraldb.selfsupport(StudentId) VALUES ("${student_id}");`;
+      }
 
-      var query = db.query(sql, function (err, result) {
-
-         message = "Succesfully! Your account has been created.";
-         res.render('signup.ejs', { message: message });
-      });
+      if (!support_type) {
+         message = "Two are more supporttypes are not valid!!";
+         res.render('index.ejs', { message: message });
+      } else {
+         var sql = `INSERT INTO doctoraldb.phdstudent(StudentId,FName,LName,StSem, StYear, Supervisor) VALUES ('${student_id}','${first_name}', '${last_name}', '${st_sem}', ${parseInt(st_year)}, '${supervisor}');`;
+         db.query(sql, function (err, result) {
+            if (err) res.render('index.ejs', { message: err });
+            else {
+               db.query(support_insertion_query, function (err, result) {
+                  if (err) res.render('index.ejs', { message: err });
+                  else {
+                     message = "Succesfully! Student account has been created.";
+                     res.render('index.ejs', { message: message });
+                  }
+               });
+            }
+         });
+      }
 
    } else {
       res.render('signup');
