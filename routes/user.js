@@ -135,13 +135,15 @@ exports.login = function (req, res) {
                      MilestonesPassedQuery = `SELECT * FROM doctoraldb.milestonespassed where StudentId = "${response.id}";`;
                      db.query(MilestonesPassedQuery, function (err, MilestonePssd) {
                         if (MilestonePssd.length > 0) {
-
                            GetMileStonesandPAssedDate(MilestonePssd).then((resnse) => {
                               response['MName'] = resnse.Milestones;
                               response['PassDate'] = resnse.MDate;
                               console.log(response);
                               res.render('index.ejs', { message: [response] });
                            })
+                        } else {
+                           console.log(response);
+                           res.render('index.ejs', { message: [response] });
                         }
                      });
                   });
